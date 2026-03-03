@@ -19,7 +19,7 @@
 
     ```bash
     sdk install maven 3.9.9
-    sdk use maven 3.9.9
+    sdk use maven 3.9.10
     ```
 - [`GNU Make`](https://www.gnu.org/software/make/)
 
