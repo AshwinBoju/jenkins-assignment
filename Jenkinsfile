@@ -34,7 +34,7 @@ stages {
             branch 'main'
         }
         steps {
-            sshagent(credentials: ['ubuntu']) {
+            sshagent(credentials: ['app-server-ssh']) {
                 sh 'scp -o StrictHostKeyChecking=no target/maven-simple-1.0-SNAPSHOT.jar ubuntu@98.92.184.16:/home/ubuntu/app.jar'
                 sh 'ssh -o StrictHostKeyChecking=no ubuntu@98.92.184.16 "pkill -f app.jar || true"'
                 sh 'ssh -o StrictHostKeyChecking=no ubuntu@98.92.184.16 "nohup java -jar /home/ubuntu/app.jar > app.log 2>&1 &"'
