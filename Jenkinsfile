@@ -9,20 +9,13 @@ pipeline {
             }
         }
 
-        stage('Build & Test') {
+        stage('Build') {
             steps {
-                sh 'mvn clean test'
+                sh 'mvn clean package'
             }
         }
 
-        stage('Package') {
-            steps {
-                sh 'mvn package'
-                archiveArtifacts artifacts: 'target/*.jar'
-            }
-        }
-
-        stage('Deploy to App Server') {
+        stage('Deploy') {
             when {
                 branch 'main'
             }
