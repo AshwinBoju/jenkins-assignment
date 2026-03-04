@@ -31,7 +31,7 @@ stages {
 
     stage('Deploy to Application Server') {
     steps {
-        sshagent(credentials: ['ubuntu']) {
+        sshagent(credentials: ['app-server-ssh']) {
             sh '''
             scp -o StrictHostKeyChecking=no target/maven-simple-1.0-SNAPSHOT.jar ubuntu@98.92.184.16:/home/ubuntu/app.jar
 
