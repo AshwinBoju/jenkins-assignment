@@ -33,20 +33,20 @@ pipeline {
         }
 
         stage('Deploy to Application Server') {
-            when {
-                branch 'main'
-            }
-            steps {
-                sshagent(credentials: ['app-server-ssh']) {
-                    sh '''
-                    scp -o StrictHostKeyChecking=no target/*.jar ubuntu@$APP_SERVER:/home/ubuntu/app.jar
-                    ssh -o StrictHostKeyChecking=no ubuntu@$APP_SERVER "
-                        pkill -f app.jar || true
-                        nohup java -jar /home/ubuntu/app.jar > app.log 2>&1 &
-                    "
-                    '''
-                }
-            }
+    when {
+        branch 'main'
+    }
+
+    steps {
+        sshagent(['ubuntu']) {
+            sh '''
+            scp -o StrictHostKeyChecking=no target/maven-simple-1.0-SNAPSHOT.jar ubuntu@98.92.184.16:/home/ubuntu/app.jar
+
+            ssh -o StrictHostKeyChecking=no ubuntu@98.92.184.16 "
+                pkill -f app.jar || true
+                nohup java -jar /home/ubuntu/app.jar > app.log 2>&1 &
+            "
+            '''
         }
     }
 }
