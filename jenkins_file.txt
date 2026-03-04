@@ -1,0 +1,36 @@
+pipeline {
+    agent { label 'maven-agent' }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build & Test') {
+            steps {
+                sh 'mvn clean test'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                sh 'mvn package'
+                archiveArtifacts artifacts: 'target/*.jar'
+            }
+        }
+
+        stage('Deploy to App Server') {
+            when {
+                branch 'main'
+            }
+            steps {
+                sh '''
+                scp target/*.jar ubuntu@100.55.83.147:/home/ubuntu/
+                '''
+            }
+        }
+    }
+}
